@@ -1,0 +1,454 @@
+#include "BluetoothSerial.h" //Header File for Serial Bluetooth
+BluetoothSerial ESP_BT; //Object for Bluetooth
+int incoming;
+int LED_PIN = 15; // GPIO ales
+const int pingalben= 25;
+int x=10;
+int y;
+int z;
+int i;
+int touchValue=21;
+#define A 18
+ #define B 19
+ #define C 5
+ #define D 17
+ #define E 2
+ #define F 21
+ #define G 13
+ #define DP 4
+ #define DIGIT1 22
+ #define DIGIT2 23
+ #define MAX_TIME 10
+  unsigned long timp = millis();
+ int digitCurent;
+
+#define touchPin 15
+const int ledPin = 16;
+const int threshold=20;
+int touchvalue=21;
+#define touchverde 14
+const int ledverde = 27;
+int touchValueverde=21;
+#define buton 32
+int touchbuton=21;
+
+void setup() {
+ Serial.begin(9600); //Start Serial monitor in 9600
+ ESP_BT.begin("ESP32_LED_ControlADINA"); //Name of your Bluetooth Signal – change it!
+ Serial.println("Bluetooth Device is Ready to Pair");
+x=10;
+delay(1000);
+pinMode(pingalben, OUTPUT);
+pinMode (ledPin, OUTPUT);
+pinMode (ledverde, OUTPUT);
+pinMode(A, OUTPUT); //A
+ pinMode(B, OUTPUT); //B
+ pinMode(C, OUTPUT); //C
+ pinMode(D, OUTPUT); //D
+ pinMode(E, OUTPUT); //E
+ pinMode(F, OUTPUT); //F
+ pinMode(G, OUTPUT); //G
+ pinMode(DP, OUTPUT); //DP
+ pinMode(DIGIT1, OUTPUT); //DIGIT1
+ pinMode(DIGIT2, OUTPUT); //DIGIT2
+}
+
+
+
+ void aprindeCifra(byte digitCurent)
+ {
+
+ if (digitCurent == 1){
+  digitalWrite(DIGIT1,LOW); //DIGIT1
+ digitalWrite(DIGIT2,HIGH); //DIGIT2
+ digitalWrite(A,HIGH); //a
+ digitalWrite(B,LOW); //b
+ digitalWrite(C,HIGH); //c
+ digitalWrite(D,HIGH); //d
+ digitalWrite(E,LOW); //e
+ digitalWrite(F,HIGH); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+ 
+ digitalWrite(DIGIT1,HIGH); //DIGIT1
+ digitalWrite(DIGIT2,LOW); //DIGIT2
+ digitalWrite(A,LOW); //a
+ digitalWrite(B,LOW); //b
+ digitalWrite(C,LOW); //c
+ digitalWrite(D,HIGH); //d
+ digitalWrite(E,HIGH); //e
+ digitalWrite(F,HIGH); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+ }
+ 
+ if (digitCurent == 2)
+ {digitalWrite(DIGIT1,LOW); //DIGIT1
+ digitalWrite(DIGIT2,HIGH); //DIGIT2
+ digitalWrite(A,HIGH); //a
+ digitalWrite(B,HIGH); //b
+ digitalWrite(C,HIGH); //c
+ digitalWrite(D,LOW); //d
+ digitalWrite(E,HIGH); //e
+ digitalWrite(F,HIGH); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+  
+ digitalWrite(DIGIT1,HIGH); //DIGIT1
+ digitalWrite(DIGIT2,LOW); //DIGIT2
+ digitalWrite(A,LOW); //a
+ digitalWrite(B,LOW); //b
+ digitalWrite(C,LOW); //c
+ digitalWrite(D,LOW); //d
+ digitalWrite(E,HIGH); //e
+ digitalWrite(F,LOW); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+ }
+ 
+if (digitCurent == 3)
+{
+digitalWrite(DIGIT1,LOW); //DIGIT1
+ digitalWrite(DIGIT2,HIGH); //DIGIT2
+ digitalWrite(A,LOW); //a
+ digitalWrite(B,LOW); //b
+ digitalWrite(C,LOW); //c
+ digitalWrite(D,HIGH); //d
+ digitalWrite(E,HIGH); //e
+ digitalWrite(F,HIGH); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+ }
+ 
+ if(digitCurent==4){
+digitalWrite(DIGIT1,LOW); //DIGIT1
+ digitalWrite(DIGIT2,HIGH); //DIGIT2
+ digitalWrite(A,LOW); //a
+ digitalWrite(B,LOW); //b
+ digitalWrite(C,LOW); //c
+ digitalWrite(D,LOW); //e
+  digitalWrite(E,LOW); //e
+ digitalWrite(F,LOW); //f
+ digitalWrite(G,LOW); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+ }
+ if (digitCurent == 5)
+ {digitalWrite(DIGIT1,LOW); //DIGIT1
+ digitalWrite(DIGIT2,HIGH); //DIGIT2
+ digitalWrite(A,LOW); //a
+ digitalWrite(B,LOW); //b
+ digitalWrite(C,HIGH); //c
+ digitalWrite(D,HIGH); //d
+ digitalWrite(E,HIGH); //e
+ digitalWrite(F,LOW); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+  
+ digitalWrite(DIGIT1,HIGH); //DIGIT1
+ digitalWrite(DIGIT2,LOW); //DIGIT2
+ digitalWrite(A,HIGH); //a
+ digitalWrite(B,HIGH); //b
+ digitalWrite(C,LOW); //c
+ digitalWrite(D,LOW); //d
+ digitalWrite(E,HIGH); //e
+ digitalWrite(F,HIGH); //f
+ digitalWrite(G,HIGH); // g
+ digitalWrite(DP,LOW); // DP
+ delay(400);
+ }
+ }
+
+ 
+
+void loop() {
+
+
+touchbuton=touchRead (buton);
+if(touchbuton < threshold)
+{
+
+touchbuton=21;
+digitCurent=4;
+  digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, LOW); //aprinde 1
+ aprindeCifra(digitCurent);
+digitalWrite(ledPin, HIGH);
+Serial.println(" - LED on");
+ digitalWrite(ledverde,LOW);
+Serial.println(" - LED off");
+ESP_BT.println("Semaforul s-a facut rosu, va rog asteptati ");
+     digitCurent=1;
+  digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ delay(500);
+ digitCurent=5;
+  digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ digitCurent=4;
+delay(500);
+ aprindeCifra(digitCurent);
+ ESP_BT.println("au mai ramas 10 secunde ");
+delay(2000);
+
+ ESP_BT.println("au mai ramas 8 secunde ");
+delay(2000);
+
+ ESP_BT.println("au mai ramas 6 secunde ");
+ delay(2000);
+
+ ESP_BT.println("au mai ramas 4 secunde ");
+ delay(2000);
+
+ESP_BT.println("au mai ramas 2 secunde ");
+ delay(2000);
+
+ESP_BT.println("au mai ramas 0 secunde ");
+  digitalWrite(ledPin,LOW);
+Serial.println(" - LED off");
+digitalWrite(ledverde, HIGH);
+Serial.println(" - LED on");
+ESP_BT.println("Semaforul s-a facut verde, va rog traversati");
+     digitCurent=1;
+
+  digitalWrite(pingalben, HIGH);
+  delay(200);
+  digitalWrite(pingalben, LOW);
+  digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+   delay(200);
+
+ digitCurent=2;
+
+  digitalWrite(pingalben, HIGH);
+  delay(200);
+  digitalWrite(pingalben, LOW);
+  digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, LOW); //aprinde 2
+ aprindeCifra(digitCurent);
+ delay(200);
+
+  digitCurent=3;
+
+  digitalWrite(pingalben, HIGH);
+  delay(200);
+  digitalWrite(pingalben, LOW);
+ digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ delay(200);
+
+
+ digitCurent=4;
+
+
+  digitalWrite(pingalben, HIGH);
+  delay(200);
+  digitalWrite(pingalben, LOW);
+digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ delay(200);
+
+
+for(i=1;i<=11;i++)
+{
+  digitalWrite(pingalben, HIGH);
+  delay(200);
+  digitalWrite(pingalben, LOW);
+  delay(200);
+}
+ for(i=1;i<=30;i++)
+{
+  digitalWrite(pingalben, HIGH);
+  delay(100);
+  digitalWrite(pingalben, LOW);
+  delay(100);
+}
+for(i=1;i<=60;i++)
+{
+  digitalWrite(pingalben, HIGH);
+  delay(65);
+  digitalWrite(pingalben, LOW);
+  delay(65);
+}
+
+digitalWrite(pingalben, LOW);
+
+digitalWrite(ledverde,LOW);
+Serial.println(" - LED off");
+
+}
+
+touchValueverde = touchRead (touchverde);
+Serial.print (touchValueverde);
+if (touchValueverde < threshold) {
+  touchValueverde=21;
+  z=10;
+  digitCurent=4;
+  digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, LOW); //aprinde 1
+ aprindeCifra(digitCurent);
+digitalWrite(ledverde, HIGH);
+Serial.println(" - LED on");
+int i;
+for(i=1;i<=15;i++)
+{
+  digitalWrite(pingalben, HIGH);
+  delay(200);
+  digitalWrite(pingalben, LOW);
+  delay(200);
+}
+ for(i=1;i<=30;i++)
+{
+  digitalWrite(pingalben, HIGH);
+  delay(100);
+  digitalWrite(pingalben, LOW);
+  delay(100);
+}
+for(i=1;i<=60;i++)
+{
+  digitalWrite(pingalben, HIGH);
+  delay(65);
+  digitalWrite(pingalben, LOW);
+  delay(65);
+}
+touchValueverde=threshold+1;
+}
+else {
+  if(z==10)
+  { 
+   
+  digitalWrite(ledverde,LOW);
+Serial.println(" - LED off");
+     digitCurent=1;
+  digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ delay(500);
+ digitCurent=5;
+  digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+
+delay(500);
+
+ z=0;
+  }
+
+   digitCurent=4;
+ aprindeCifra(digitCurent);
+
+
+}
+
+
+touchValue = touchRead (touchPin);
+Serial.print (touchValue);
+if (touchValue < threshold) {
+  touchValue=threshold+1;
+  y=10;
+  digitCurent=4;
+  digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, LOW); //aprinde 1
+ aprindeCifra(digitCurent);
+digitalWrite(ledPin, HIGH);
+Serial.println(" - LED on");
+
+ ESP_BT.println("au mai ramas 10 secunde ");
+delay(2000);
+
+ ESP_BT.println("au mai ramas 8 secunde ");
+delay(2000);
+
+ ESP_BT.println("au mai ramas 6 secunde ");
+ delay(2000);
+
+ ESP_BT.println("au mai ramas 4 secunde ");
+ delay(2000);
+
+ESP_BT.println("au mai ramas 2 secunde ");
+ delay(2000);
+
+
+}
+else {
+  if(y==10)
+  { 
+   ESP_BT.println("au mai ramas 0 secunde ");
+  digitalWrite(ledPin,LOW);
+Serial.println(" - LED off");
+     digitCurent=1;
+  digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ digitCurent=2;
+
+delay(500);
+
+  digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, LOW); //aprinde 2
+ aprindeCifra(digitCurent);
+  digitCurent=3;
+ delay(500);
+
+ digitalWrite(DIGIT1, LOW);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+
+ digitCurent=4;
+delay(500);
+
+digitalWrite(DIGIT1, HIGH);
+ digitalWrite(DIGIT2, HIGH); //aprinde 1
+ aprindeCifra(digitCurent);
+ delay(500);
+ y=0;
+  }
+
+   digitCurent=4;
+ aprindeCifra(digitCurent);
+
+
+}
+
+
+
+
+ 
+ timp = millis();
+
+
+
+
+ if (ESP_BT.available()) //Check if we receive anything from Bluetooth
+ {
+ incoming = ESP_BT.read(); //Read what we recevive
+ Serial.print("Received:"); Serial.println(incoming);
+ if (incoming == 49)
+ {
+ digitalWrite(LED_PIN, HIGH);
+ //ESP_BT.println("LED turned ON");
+ ESP_BT.println("semafor pornit");
+ }
+
+ if (incoming == 48)
+ {
+ digitalWrite(LED_PIN, LOW);
+ ESP_BT.println("LED turned OFF");
+ }
+  delay(2000);
+ }
+
+
+ 
+}
