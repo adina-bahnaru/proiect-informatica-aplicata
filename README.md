@@ -1,5 +1,5 @@
 # proiect-informatica-aplicata
-Se va controla starea a doua LED-uri si un afisaj cu 7 segmente ce formeaza un semafor destinat pietonilor folosing microcontrolerului ESP32. Se realizeaza un program care foloseste comunicatia Bluetooth.
+Se va controla starea a doua LED-uri si un afisaj cu 7 segmente ce formeaza un semafor destinat pietonilor folosing microcontrolerului ESP32. Se realizeaza un program in Arduino IDE care foloseste comunicatia Bluetooth.
 
 
 Se va apasa pe pinul capacitiv TOUCH3 pentru aprinderea LED-ului pentru rosu: se va aprinde un LED care sa indice culoarea rosie a semaforului. Se va alege un interval de timp de 10 secunde pentru schimbarea culorii semaforului. La fiecare 2 secunde, se va transmite prin comunicatia Bluetooth mesajul Au mai ramas X secunde, unde X este numarul de secunde ramas pâna la schimbarea culorii semaforului în verde. Dupa trecerea acestui interval de timp, se va stinge LED-ul si se va afisa pe afisajul cu 7 segmente mesajul St, urmat de mesajul Ar si mesajul t.
